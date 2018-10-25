@@ -1,0 +1,22 @@
+#this is a python file
+
+import os,time
+
+#if the destination file is not exist, create one
+filename=('C:\\PCinfo\\PCinfo.txt')
+if(not(os.path.exists(filename))):
+    os.mkdir("C:\\PCinfo\\")
+
+
+with open(filename,'w') as file_object:
+    file_object.truncate()
+    file_object.writelines(os.popen("wmic baseboard get product,Manufacturer,version,serialnumber").read())
+    file_object.writelines('\n'+'-------------------------------------------------------------------------------------------------------------------------------'+'\n')
+    file_object.writelines("Dsiaply Adapters: "+os.popen("wmic path win32_VideoController get name").read())
+    file_object.writelines('\n'+'-------------------------------------------------------------------------------------------------------------------------------'+'\n')
+    file_object.writelines("diskdrive: "+"\n"+os.popen("wmic diskdrive get Model,caption,serialnumber,size,bytespersector,InterfaceType,MediaType").read())
+    file_object.writelines('\n'+'\n'+'\n'+'-------------------------------------------------------------------------------------------------------------------------------'+'\n')
+    file_object.writelines(os.popen("systeminfo").read()+'\n')
+    file_object.writelines('\n'+'-------------------------------------------------------------------------------------------------------------------------------'+'\n')
+    file_object.close()
+    time.sleep(1)
